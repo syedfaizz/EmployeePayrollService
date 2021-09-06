@@ -56,5 +56,33 @@ namespace EmployeePayroll
             }
             return empList;
         }
+        public int UpdateEmployeeSalary()
+        {
+            Employee emp = new Employee();
+            emp.Name = "Terissa";
+            emp.BasicPay = 3000000;
+            try
+            {
+                this.sqlConnection.Open();
+                SqlCommand sqlCommand = new SqlCommand("spUpdateEmployee", sqlConnection);
+                sqlCommand.CommandType = CommandType.StoredProcedure;
+                sqlCommand.Parameters.AddWithValue("@Name", emp.Name);
+                sqlCommand.Parameters.AddWithValue("@BasicPay", emp.BasicPay);
+                int result = sqlCommand.ExecuteNonQuery();
+                if (result == 1)
+                    Console.WriteLine("Salary is updated...");
+                else
+                    Console.WriteLine("Salary not updated!");
+                return result;
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+            finally
+            {
+                this.sqlConnection.Close();
+            }
+        }
     }
 }
